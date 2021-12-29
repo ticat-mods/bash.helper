@@ -1,2 +1,2 @@
-# helper.bash
+# bash.helper
 bash helper
