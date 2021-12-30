@@ -24,6 +24,20 @@ function to_false()
 	echo 'true'
 }
 
+function is_number()
+{
+	local str="${1}"
+	if [ "${str}" -ge 0 ] 2>/dev/null; then
+		echo 'true'
+	else
+		if [ "${str}" -lt 0 ] 2>/dev/null; then
+			echo 'true'
+		else
+			echo 'false'
+		fi
+	fi
+}
+
 function env_val()
 {
 	local env="${1}"
@@ -32,6 +46,38 @@ function env_val()
 	local val_line=`echo "${env}" | { grep "^${key}" || test $? = 1; } | tail -n 1`
 	local val="${val_line:$key_len}"
 	echo "${val}"
+}
+
+function env_prefix_keys()
+{
+	local env="${1}"
+	local prefix="${2}"
+	local prefix_len=${#prefix}
+	local lines=`echo "${env}" | { grep "^${prefix}" || test $? = 1; }`
+	echo "${lines}" | while read line; do
+		echo "${line}" | awk -F '=' '{print $1}'
+	done
+}
+
+function env_prefix_kvs()
+{
+	local env="${1}"
+	local prefix="${2}"
+	if [ ! -z "${3+x}" ]; then
+		local remove_prefix=`to_true "${3}"`
+		local prefix_len=${#prefix}
+	else
+		local remove_prefix='false'
+	fi
+	local prefix_len=${#prefix}
+	local lines=`echo "${env}" | { grep "^${prefix}" || test $? = 1; }`
+	if [ "${remove_prefix}" == 'true' ]; then
+		echo "${lines}" | while read line; do
+			echo "${line:$prefix_len}"
+		done
+	else
+		echo "${lines}"
+	fi
 }
 
 function must_env_val()
