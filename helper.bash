@@ -92,9 +92,20 @@ function must_env_val()
 	echo "${val}"
 }
 
+function ssh_ping()
+{
+	local host="${1}"
+	local result=`ssh_exe "${host}" "echo \"hello\"" 2>/dev/null | { grep 'hello' || test $? = 1; }`
+	if [ -z "${result}" ]; then
+		echo 'false'
+	else
+		echo 'true'
+	fi
+}
+
 function ssh_exe()
 {
 	local host="${1}"
 	local cmd="${2}"
-	ssh -i "${pri_key}" -o BatchMode=yes "${user}"@"${host}" ${cmd} </dev/null
+	ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "BatchMode=yes" "${host}" ${cmd} </dev/null
 }
