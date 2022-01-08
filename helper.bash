@@ -107,5 +107,18 @@ function ssh_exe()
 {
 	local host="${1}"
 	local cmd="${2}"
-	ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "BatchMode=yes" "${host}" ${cmd} </dev/null
+	#ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "BatchMode=yes" "${host}" ${cmd} </dev/null
+	ssh -o "StrictHostKeyChecking=no" -o "BatchMode=yes" "${host}" ${cmd} </dev/null
+}
+
+function lines_to_list()
+{
+	local lines="${1}"
+	readarray -t ARRAY <<< "${lines}"; IFS=','; echo "${ARRAY[*]}"
+}
+
+function list_to_array()
+{
+	local list="${1}"
+	echo "${list}" | tr ',' "\n"
 }
