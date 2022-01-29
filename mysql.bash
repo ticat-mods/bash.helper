@@ -14,5 +14,6 @@ function my_ensure_db()
 	local port="${2}"
 	local user="${3}"
 	local db="${4}"
-	my_exe "${host}" "${port}" "${user}" -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
+	local query="CREATE DATABASE IF NOT EXISTS ${db}"
+	mysql -h "${host}" -P "${port}" -u "${user}" -e "${query}"
 }
