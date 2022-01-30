@@ -4,7 +4,7 @@ function my_exe()
 	local port="${2}"
 	local user="${3}"
 	local db="${4}"
-	local query="${5}"
+	local query=`echo "${5}" | awk '$1=$1'`
 	mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" -e "${query}"
 }
 
