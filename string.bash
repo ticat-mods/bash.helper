@@ -49,3 +49,19 @@ function list_to_array()
 	local list="${1}"
 	echo "${list}" | tr ',' "\n"
 }
+
+function normalize_github_addr()
+{
+	local addr="${1}"
+	local addr_check=`echo "${addr}" | { grep 'http' || test $? == 1; }`
+	if [ ! -z "${addr_check}" ]; then
+		echo "${addr}"
+		return
+	fi
+	local addr_check=`echo "${addr}" | { grep '@' || test $? == 1; }`
+	if [ ! -z "${addr_check}" ]; then
+		echo "${addr}"
+		return
+	fi
+	echo "https://github.com/${addr}"
+}
