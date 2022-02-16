@@ -92,7 +92,7 @@ function _check_dir_match_git_branch()
 		cd "${dir}"
 		local checking=`git status | head -n 1`
 
-		local no_branch=`echo "${checking}" | { grep 'Not currently on any branch' || test $? == 1; }`
+		local no_branch=`echo "${checking}" | { grep 'Not currently on any branch' || test $? = 1; }`
 		if [ ! -z "${no_branch}" ]; then
 			if [ "${treat_no_branch_as_match}" == 'true' ]; then
 				echo 'true'
