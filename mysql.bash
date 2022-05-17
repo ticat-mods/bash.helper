@@ -3,12 +3,13 @@ function my_exe()
 	local host="${1}"
 	local port="${2}"
 	local user="${3}"
-	local db="${4}"
-	local query=`echo "${5}" | awk '$1=$1'`
+	local pp="${4}"
+	local db="${5}"
+	local query=`echo "${6}" | awk '$1=$1'`
 
 	local fmt=''
-	if [ ! -z "${6+x}" ]; then
-		local fmt="${6}"
+	if [ ! -z "${7+x}" ]; then
+		local fmt="${7}"
 	fi
 	if [ "${fmt}" == 'v' ]; then
 		local fmt='--vertical'
@@ -31,7 +32,8 @@ function my_ensure_db()
 	local host="${1}"
 	local port="${2}"
 	local user="${3}"
-	local db="${4}"
+	local pp="${4}"
+	local db="${5}"
 	local query="CREATE DATABASE IF NOT EXISTS ${db}"
 	mysql -h "${host}" -P "${port}" -u "${user}" -e "${query}"
 }
