@@ -24,7 +24,7 @@ function my_exe()
 		local fmt='--table'
 	fi
 
-	mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" --comments ${fmt} -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" --comments ${fmt} -e "${query}"
 }
 
 function my_ensure_db()
@@ -35,5 +35,5 @@ function my_ensure_db()
 	local pp="${4}"
 	local db="${5}"
 	local query="CREATE DATABASE IF NOT EXISTS ${db}"
-	mysql -h "${host}" -P "${port}" -u "${user}" -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "${query}"
 }
