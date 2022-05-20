@@ -8,9 +8,11 @@ function check_or_install()
 	fi
 
 	local pms=(
-		'yum'
-		'apt-get'
-		'brew'
+		'yum install -y'
+		'apt-get install -y'
+		'brew install -y'
+		'pacman -S --noconfirm'
+		'dnf install -y'
 	)
 
 	if ! [ -x "$(command -v ${to_check})" ]; then
@@ -18,9 +20,10 @@ function check_or_install()
 
 		local ok='false'
 		for pm in "${pms[@]}"; do
-			if [ -x "$(command -v ${pm})" ]; then
-				echo "[:-] will install ${to_install} using ${pm}"
-				${pm} install -y "${to_install}"
+			local cmd=`echo "${pm}" | awk '{print $1}'`
+			if [ -x "$(command -v ${cmd})" ]; then
+				echo "[:-] will install ${to_install} using '${pm}'"
+				sudo ${pm} "${to_install}"
 				if [[ $? > 0 ]]; then
 					echo "[:(] installation failed"
 					exit 1
