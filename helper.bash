@@ -4,3 +4,5 @@
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/mysql.bash"
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/ip.bash"
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/ticat.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/git.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/bins.bash"

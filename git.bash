@@ -4,7 +4,7 @@ function download_bin_from_gitpage_release()
 	local bin_name="${2}"
 	local dir="${3}"
 
-	if [ ! -z "${4+x}" ]; then
+	if [ ! -z "${4+x}" ] && [ ! -z "${4}" ]; then
 		local token="${4}"
 		# this code assume the token format are github's
 		local token="ghp_${token#'ghp_'}"
@@ -21,7 +21,7 @@ function download_bin_from_gitpage_release()
 	local os_type=`uname | awk '{print tolower($0)}'`
 	echo "[:-] detected os type: ${os_type}" >&2
 
-	local long_name="pre-builtin bin '${bin_name}' on '${repo}' for '${os_type}'"
+	local long_name="pre-built bin '${bin_name}' on '${repo}' for '${os_type}'"
 
 	if ! [ -x "$(command -v curl)" ]; then
 		echo "[:(] 'curl' not found, please install it first" >&2
@@ -32,6 +32,8 @@ function download_bin_from_gitpage_release()
 	local res_addr="https://api.${repo}/releases/latest"
 
 	local json=`curl --proto '=https' --tlsv1.2 -sSf -H "${token}" "${res_addr}"`
+
+	echo "curl --proto '=https' --tlsv1.2 -sSf -H '${token}' '${res_addr}'" >&2
 
 	local ver=`echo "${json}" | grep '"tag_name": ' | awk -F '"' '{print $(NF-1)}'`
 	if [ -z "${ver}" ]; then
