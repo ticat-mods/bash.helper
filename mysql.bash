@@ -24,7 +24,28 @@ function my_exe()
 		local fmt='--table'
 	fi
 
+	set +e
 	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" --comments ${fmt} -e "${query}"
+	local rt="${?}"
+	set -e
+	if [ "${rt}" == '0' ]; then
+		return 0
+	fi
+
+	echo "***" >&2
+	echo "host: ${host}" >&2
+	echo "port: ${port}" >&2
+	echo "user: ${user}" >&2
+	echo "db:   ${db}" >&2
+	if [ -z "${pp}" ]; then
+		echo 'pwd:  (empty)' >&2
+	else
+		echo 'pwd:  (not empty)' >&2
+	fi
+	echo "ERROR QUERY:" >&2
+	echo "${query}" >&2
+	echo "***" >&2
+	return 1
 }
 
 function my_ensure_db()
