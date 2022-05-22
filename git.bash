@@ -79,12 +79,14 @@ function download_bin_from_gitpage_release()
 	echo "   - download to: ${bin_path}" >&2
 
 	mkdir -p "${dir}"
-	curl --proto '=https' --tlsv1.2 -sSf -kL -H "${token}" "${download_url}" > "${bin_path}"
-	chmod +x "${bin_path}"
+	curl --proto '=https' --tlsv1.2 -sSf -kL -H "${token}" "${download_url}" > "${bin_path}.tmp"
+	chmod +x "${bin_path}.tmp"
+	rm -f "${bin_path}"
+	mv "${bin_path}.tmp" "${bin_path}"
 
 	if [ -x "$(command -v ${hash_bin})" ]; then
-		local hash_new=`"${has_bin}" "${bin_path}" | awk '{print $1}'`
-		if [ "${hash_new}" != "${has_val}" ]; then
+		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $1}'`
+		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
 			echo "   - downloaded: ${has_new}" >&2
 			return 1
