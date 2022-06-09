@@ -12,10 +12,23 @@ function env_prefix_keys()
 {
 	local env="${1}"
 	local prefix="${2}"
+
 	local prefix_len=${#prefix}
 	local lines=`echo "${env}" | { grep "^${prefix}" || test $? = 1; }`
 	echo "${lines}" | while read line; do
 		echo "${line}" | awk -F '=' '{print $1}'
+	done
+}
+
+function env_prefix_vals()
+{
+	local env="${1}"
+	local prefix="${2}"
+
+	local prefix_len=${#prefix}
+	local lines=`echo "${env}" | { grep "^${prefix}" || test $? = 1; }`
+	echo "${lines}" | while read line; do
+		echo "${line}" | awk -F '=' '{print $2}'
 	done
 }
 
