@@ -6,3 +6,4 @@
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/ticat.bash"
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/git.bash"
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/bins.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/path.bash"
