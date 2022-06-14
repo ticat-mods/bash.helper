@@ -22,13 +22,13 @@ function check_or_install()
 		for pm in "${pms[@]}"; do
 			local cmd=`echo "${pm}" | awk '{print $1}'`
 			if [ -x "$(command -v ${cmd})" ]; then
-				echo "[:-] will install ${to_install} using '${pm}'"
-				sudo ${pm} "${to_install}"
+				echo "[:-] will install '${to_install}' using '${pm}'"
+				sudo ${pm} ${to_install}
 				if [[ $? > 0 ]]; then
 					echo "[:(] installation failed"
 					exit 1
 				else
-					echo "[:)] installed ${to_install}"
+					echo "[:)] installed '${to_install}'"
 					ok='true'
 					break 1
 				fi
@@ -36,7 +36,7 @@ function check_or_install()
 		done
 
 		if [ "${ok}" != 'true' ]; then
-			echo "[:(] no supported package manager found, please install ${to_install}(${to_check}) manually"
+			echo "[:(] no supported package manager found, please install '${to_install}'(${to_check}) manually"
 			exit 2
 		fi
 	else
