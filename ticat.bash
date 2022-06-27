@@ -223,3 +223,14 @@ function build_bin_in_ticat_shared_dir()
 		build_bin "${dir}" "${bin_path_in_repo_dir}" "${make_cmd}"
 	)
 }
+
+function get_path_under_pwd()
+{
+	local env="${1}"
+	local path="${2}"
+	if [ ! -z "${path}" ] && [ "${file:0:1}" != '/' ] && [ "${file:0:1}" != '\' ]; then
+		local work_dir=`must_env_val "${env}" 'sys.paths.work-dir'`
+		local path="${work_dir}/${path}"
+	fi
+	echo "${path}"
+}
