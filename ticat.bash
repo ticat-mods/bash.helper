@@ -228,7 +228,7 @@ function get_path_under_pwd()
 {
 	local env="${1}"
 	local path="${2}"
-	if [ ! -z "${path}" ] && [ "${file:0:1}" != '/' ] && [ "${file:0:1}" != '\' ]; then
+	if [ ! -z "${path}" ] && [ "${path:0:1}" != '/' ] && [ "${path:0:1}" != '\' ]; then
 		local work_dir=`must_env_val "${env}" 'sys.paths.work-dir'`
 		local path="${work_dir}/${path}"
 	fi
