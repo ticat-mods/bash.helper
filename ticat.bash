@@ -1,3 +1,5 @@
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/path.bash"
+
 function env_val()
 {
 	local env="${1}"
@@ -232,5 +234,5 @@ function get_path_under_pwd()
 		local work_dir=`must_env_val "${env}" 'sys.paths.work-dir'`
 		local path="${work_dir}/${path}"
 	fi
-	echo "${path}"
+	abs_path "${path}"
 }
