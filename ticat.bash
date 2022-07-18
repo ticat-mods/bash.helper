@@ -76,7 +76,7 @@ function build_bin()
 		cd "${dir}"
 		if [ -f "${bin_path}" ]; then
 			echo "[:)] found pre-built '${bin_path}' in build dir: '${dir}'" >&2
-			return
+			return 0
 		fi
 		${make_cmd} 1>&2
 		if [ ! -f "${bin_path}" ]; then
@@ -114,22 +114,22 @@ function _check_dir_match_git_branch()
 			else
 				echo 'false'
 			fi
-			return
+			return 0
 		fi
 
 		local target=`echo "${checking}" | awk '{print $NF}'`
 		if [ -z "${target}" ]; then
 			_is_default_branch_name "${target}"
-			return
+			return 0
 		fi
 
 		if [ "${target}" == "${branch}" ]; then
 			echo 'true'
-			return
+			return 0
 		fi
 		if [[ "${#target}" -lt 4 ]] || [[ "${#branch}" -lt 4 ]]; then
 			echo 'false'
-			return
+			return 0
 		fi
 
 		target_len="${#target}"
@@ -194,7 +194,7 @@ function build_bin_in_ticat_shared_dir()
 
 			build_bin "${dir}" "${bin_path_in_repo_dir}" "${make_cmd}"
 		fi
-		return
+		return 0
 	fi
 
 	(

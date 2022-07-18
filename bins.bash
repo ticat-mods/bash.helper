@@ -8,18 +8,18 @@ function get_built_bin_path_from_repo()
 
 	local cache_dir=`must_env_val "${env}" 'sys.paths.cache'`
 	if [ -z "${cache_dir}" ]; then
-		return
+		return 0
 	fi
 
 	local cache_dir="${cache_dir}/repos"
 	if [ ! -d "${cache_dir}" ]; then
-		return
+		return 0
 	fi
 
 	local dir_name=`basename "${repo_addr}"`
 	local dir_path="${cache_dir}/${dir_name}"
 	if [ ! -d "${dir_path}" ]; then
-		return
+		return 0
 	fi
 
 	local bin_path="${dir_path}/${bin_rpath}"
@@ -59,7 +59,7 @@ function build_bin_from_repo()
 	local bin_path="${dir_path}/${bin_rpath}"
 	if [ -f "${bin_path}" ]; then
 		echo "${bin_path}"
-		return
+		return 0
 	fi
 
 	(
@@ -106,14 +106,14 @@ function download_or_build_bin()
 	if [ -f "${download_path}" ]; then
 		echo "${download_path}"
 		echo "[:)] use previous downloaded '${download_path}'" >&2
-		return
+		return 0
 	fi
 
 	local built_bin=`get_built_bin_path_from_repo "${env}" "${repo_addr}" "${bin_rpath}"`
 	if [ ! -z "${built_bin}" ]; then
 		echo "${built_bin}"
 		echo "[:)] use previous built '${built_bin}'" >&2
-		return
+		return 0
 	fi
 
 	local ok=`download_bin_from_gitpage_release "${repo_addr}" "${bin_name}" "${cache_dir}" "${download_token}"`

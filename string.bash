@@ -5,7 +5,7 @@ function to_true()
 	for t in ${trues[@]}; do
 		if [ "${t}" == "${val}" ]; then
 			echo 'true'
-			return
+			return 0
 		fi
 	done
 	echo 'false'
@@ -18,7 +18,7 @@ function to_false()
 	for t in ${trues[@]}; do
 		if [ "${t}" == "${val}" ]; then
 			echo 'false'
-			return
+			return 0
 		fi
 	done
 	echo 'true'
@@ -56,12 +56,12 @@ function normalize_github_addr()
 	local addr_check=`echo "${addr}" | { grep 'http' || test $? = 1; }`
 	if [ ! -z "${addr_check}" ]; then
 		echo "${addr}"
-		return
+		return 0
 	fi
 	local addr_check=`echo "${addr}" | { grep '@' || test $? = 1; }`
 	if [ ! -z "${addr_check}" ]; then
 		echo "${addr}"
-		return
+		return 0
 	fi
 	echo "https://github.com/${addr}"
 }

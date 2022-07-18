@@ -9,7 +9,7 @@ function abs_path()
 
 	if [ "${src:0:1}" == '/' ]; then
 		echo "${src}"
-		return
+		return 0
 	fi
 
 	if [ `uname` == "Darwin" ]; then
