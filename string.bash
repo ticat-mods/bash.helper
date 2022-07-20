@@ -85,3 +85,15 @@ function extract_lines_section()
 	fi
 	echo "${lines}"
 }
+
+function match_lines_cnt()
+{
+	local lines="${1}"
+	local target="${2}"
+	local filtered=`echo "${lines}" | { grep "${target}" || test $? = 1; }`
+	if [ -z "${filtered}" ]; then
+		echo '0'
+	else
+		echo "${filtered}" | wc -l
+	fi
+}
