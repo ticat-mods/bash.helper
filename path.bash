@@ -6,6 +6,9 @@ function abs_path()
 	fi
 
 	local src="${1}"
+	if [ -z "${src}" ]; then
+		return 0
+	fi
 
 	if [ "${src:0:1}" == '/' ]; then
 		echo "${src}"
