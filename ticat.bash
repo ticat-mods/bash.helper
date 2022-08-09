@@ -236,3 +236,12 @@ function get_path_under_pwd()
 	fi
 	abs_path "${path}"
 }
+
+function ticat_exe()
+{
+	local session="${1}"
+	shift
+	local env=`cat "${session}/env"`
+	local ticat=`must_env_val "${env}" 'sys.paths.ticat'`
+	"${ticat}" {session="${session}"} "${@}"
+}
