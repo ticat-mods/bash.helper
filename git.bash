@@ -95,3 +95,21 @@ function download_bin_from_gitpage_release()
 
 	echo 'true'
 }
+
+function find_repo_root_dir()
+{
+	local curr_dir="${1}"
+	if [ ! -d "${curr_dir}" ]; then
+		echo "[:(] something wrong, '${curr_dir}' is not a dir as expected" >&2
+		return 1
+	fi
+	if [ "${curr_dir}" == '/' ] || [ "${curr_dir}" == '\' ]; then
+		return 0
+	fi
+	if [ -d "${curr_dir}/.git" ]; then
+		echo "${curr_dir}"
+		return 0
+	fi
+	local sub=`dirname "${curr_dir}"`
+	find_repo_root_dir "${sub}"
+}
