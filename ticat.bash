@@ -237,6 +237,13 @@ function get_path_under_pwd()
 	abs_path "${path}"
 }
 
+function get_pwd()
+{
+	local env="${1}"
+	local curr_dir=`get_path_under_pwd "${env}" 'dummy'`
+	dirname "${curr_dir}"
+}
+
 function ticat_exe()
 {
 	local session="${1}"
