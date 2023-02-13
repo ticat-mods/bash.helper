@@ -35,7 +35,7 @@ function download_bin_from_gitpage_release()
 
 	echo "curl --proto '=https' --tlsv1.2 -sSf -H '${token}' '${res_addr}'" >&2
 
-	local ver=`echo "${json}" | grep '"tag_name": ' | awk -F '"' '{print $(NF-1)}'`
+	local ver=`echo "${json}" | { grep '"tag_name": ' || test $? = 1; } | awk -F '"' '{print $(NF-1)}'`
 	if [ -z "${ver}" ]; then
 		echo "***" >&2
 		echo "${json}" >&2
@@ -45,8 +45,8 @@ function download_bin_from_gitpage_release()
 	fi
 
 	local info=`echo "${json}" | \
-		grep '"assets": ' -A 99999 | \
-		grep '"name": \|"browser_download_url": ' | \
+		{ grep '"assets": ' -A 99999 || test $? = 1; } | \
+		{ grep '"name": \|"browser_download_url": ' || test $? = 1; } | \
 		{ grep "${bin_name}_${os_type}" || test $? = 1; } | \
 			awk -F '": "' '{print $2}' | \
 			awk -F '"' '{print $1}'`
