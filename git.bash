@@ -99,10 +99,6 @@ function download_bin_from_gitpage_release()
 function find_repo_root_dir()
 {
 	local curr_dir="${1}"
-	if [ ! -d "${curr_dir}" ]; then
-		echo "[:(] something wrong, '${curr_dir}' is not a dir as expected" >&2
-		return 1
-	fi
 	if [ "${curr_dir}" == '/' ] || [ "${curr_dir}" == '\' ]; then
 		return 0
 	fi
@@ -112,4 +108,28 @@ function find_repo_root_dir()
 	fi
 	local sub=`dirname "${curr_dir}"`
 	find_repo_root_dir "${sub}"
+}
+
+function _rel_path_to_repo_root()
+{
+	local curr_dir="${1}"
+	local repo_root="${2}"
+	local curr_rel="${3}"
+	echo "${curr_rel}"
+	if [ "${curr_dir}" == "${repo_root}" ]; then
+		return 0
+	fi
+	_rel_path_to_repo_root `dirname "${curr_dir}"` "${repo_root}" "${curr_rel}/.."
+}
+
+function rel_path_to_repo_root()
+{
+	local curr_dir="${1}"
+	local repo_root="${2}"
+	local lines=`_rel_path_to_repo_root "${curr_dir}" "${repo_root}" '.'`
+	if [ -z "${lines}" ]; then
+		echo "[:(] something wrong, '${curr_dir}' is not a dir as expected" >&2
+		return 1
+	fi
+	echo "${lines}" | tail -n 1
 }
