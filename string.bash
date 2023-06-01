@@ -94,6 +94,6 @@ function match_lines_cnt()
 	if [ -z "${filtered}" ]; then
 		echo '0'
 	else
-		echo "${filtered}" | wc -l
+		echo "${filtered}" | wc -l | awk '{print $1}'
 	fi
 }

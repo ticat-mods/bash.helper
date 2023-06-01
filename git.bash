@@ -57,7 +57,7 @@ function download_bin_from_gitpage_release()
 		return 1
 	fi
 
-	local cnt=`echo "${res_name}" | wc -l`
+	local cnt=`echo "${res_name}" | wc -l | awk '{print $1}'`
 	if [ "${cnt}" != '1' ]; then
 		echo "***" >&2
 		echo "${res_name}" | awk '{print "   - "$0}' >&2
