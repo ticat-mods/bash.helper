@@ -85,12 +85,15 @@ function download_bin_from_gitpage_release()
 	mv "${bin_path}.tmp" "${bin_path}"
 
 	if [ -x "$(command -v ${hash_bin})" ]; then
-		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $1}'`
+		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $NF}'`
 		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
 			echo "   - downloaded: ${has_new}" >&2
 			return 1
 		fi
+	else
+		echo "   - ${hash_bin}: system command not found" >&2
+		return 1
 	fi
 
 	echo 'true'
