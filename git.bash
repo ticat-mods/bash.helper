@@ -88,7 +88,7 @@ function download_bin_from_gitpage_release()
 		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $NF}'`
 		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
-			echo "   - downloaded: ${has_new}" >&2
+			echo "   - downloaded: ${hash_new}" >&2
 			return 1
 		fi
 	else
