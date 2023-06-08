@@ -90,13 +90,12 @@ function download_bin_from_gitpage_release()
 			grep -v '^$' |\
 			grep -v '\.' |\
 			grep -v '/' |\
-			grep -v '\\' |\
 			grep -v '(' |\
 			grep -v '=' |\
 			grep -v 'MD5'`
 		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
-			echo "   - downloaded: ${hash_new}" >&2
+			echo "   - downloaded hash: ${hash_new}" >&2
 			return 1
 		fi
 	else
