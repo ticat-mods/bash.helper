@@ -85,7 +85,15 @@ function download_bin_from_gitpage_release()
 	mv "${bin_path}.tmp" "${bin_path}"
 
 	if [ -x "$(command -v ${hash_bin})" ]; then
-		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $NF}'`
+		local hash_new=`"${hash_bin}" "${bin_path}" |\
+			tr ' ' '\n' |\
+			grep -v '^$' |\
+			grep -v '\.' |\
+			grep -v '/' |\
+			grep -v '\\' |\
+			grep -v '(' |\
+			grep -v '=' |\
+			grep -v 'MD5'`
 		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
 			echo "   - downloaded: ${hash_new}" >&2
