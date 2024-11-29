@@ -57,7 +57,7 @@ function download_bin_from_gitpage_release()
 		return 1
 	fi
 
-	local cnt=`echo "${res_name}" | wc -l | awk '{print $1}'`
+	local cnt=`echo "${res_name}" | wc -l`
 	if [ "${cnt}" != '1' ]; then
 		echo "***" >&2
 		echo "${res_name}" | awk '{print "   - "$0}' >&2
@@ -85,22 +85,12 @@ function download_bin_from_gitpage_release()
 	mv "${bin_path}.tmp" "${bin_path}"
 
 	if [ -x "$(command -v ${hash_bin})" ]; then
-		local hash_new=`"${hash_bin}" "${bin_path}" |\
-			tr ' ' '\n' |\
-			grep -v '^$' |\
-			grep -v '\.' |\
-			grep -v '/' |\
-			grep -v '(' |\
-			grep -v '=' |\
-			grep -v 'MD5'`
+		local hash_new=`"${hash_bin}" "${bin_path}" | awk '{print $1}'`
 		if [ "${hash_new}" != "${hash_val}" ]; then
 			echo "[:(] hash value not matched, download failed" >&2
-			echo "   - downloaded hash: ${hash_new}" >&2
+			echo "   - downloaded: ${has_new}" >&2
 			return 1
 		fi
-	else
-		echo "   - ${hash_bin}: system command not found" >&2
-		return 1
 	fi
 
 	echo 'true'
