@@ -24,8 +24,16 @@ function my_exe()
 		local fmt='--table'
 	fi
 
+	local ca=''
+	if [ ! -z "${8+x}" ]; then
+		local ca="${8}"
+	fi
+	if [ ! -z "${ca}" ]; then
+		local ca="--ssl-ca=${ca} "
+	fi
+
 	set +e
-	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" --comments ${fmt} -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" ${ca}--comments ${fmt} -e "${query}"
 	local rt="${?}"
 	set -e
 	if [ "${rt}" == '0' ]; then
@@ -56,6 +64,15 @@ function my_ensure_db()
 	local user="${3}"
 	local pp="${4}"
 	local db="${5}"
+
+	local ca=''
+	if [ ! -z "${6+x}" ]; then
+		local ca="${6}"
+	fi
+	if [ ! -z "${ca}" ]; then
+		local ca="--ssl-ca=${ca} "
+	fi
+
 	local query="CREATE DATABASE IF NOT EXISTS ${db}"
-	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" ${ca}-e "${query}"
 }
