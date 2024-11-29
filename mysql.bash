@@ -37,6 +37,7 @@ function my_exe()
 	echo "port: ${port}" >&2
 	echo "user: ${user}" >&2
 	echo "db:   ${db}" >&2
+	echo "ca:   ${ca}" >&2
 	if [ -z "${pp}" ]; then
 		echo 'pwd:  (empty)' >&2
 	else
